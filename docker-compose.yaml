@@ -4,7 +4,6 @@ version: '2'
 services:
   booking-db:
     image: postgres
-    restart: always
     container_name: booking-db
     environment:
       POSTGRES_DB: hotel_booking
