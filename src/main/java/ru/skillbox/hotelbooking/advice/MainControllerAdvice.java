@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import ru.skillbox.hotelbooking.dto.error.ErrorResponse;
 import ru.skillbox.hotelbooking.dto.error.ErrorType;
 import ru.skillbox.hotelbooking.exception.HotelNotFoundException;
+import ru.skillbox.hotelbooking.exception.RoomNotFoundException;
 
 /**
  * MainControllerAdvice
@@ -37,15 +38,15 @@ public class MainControllerAdvice {
     }
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    @ExceptionHandler(HotelNotFoundException.class)
+    @ExceptionHandler({HotelNotFoundException.class, RoomNotFoundException.class})
     public ErrorResponse handleNotFoundExceptions(
-        HotelNotFoundException ex) {
+        Exception ex) {
         return new ErrorResponse(ErrorType.NOT_FOUND.getDescription(), ex.getMessage());
     }
 
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(Exception.class)
-    public ErrorResponse handleNotFoundExceptions(
+    public ErrorResponse handleInternalErrors(
         Exception ex) {
         log.error(ex.getMessage(), ex);
         return new ErrorResponse(ErrorType.INTERNAL_SERVER_ERROR.getDescription(), ex.getMessage());

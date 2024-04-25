@@ -3,10 +3,8 @@ package ru.skillbox.hotelbooking.service.impl;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.server.ResponseStatusException;
 import ru.skillbox.hotelbooking.dto.hotel.HotelCreateRequest;
 import ru.skillbox.hotelbooking.dto.hotel.HotelDto;
 import ru.skillbox.hotelbooking.dto.hotel.HotelUpdateRequest;
@@ -14,6 +12,7 @@ import ru.skillbox.hotelbooking.exception.HotelNotFoundException;
 import ru.skillbox.hotelbooking.mapper.HotelMapper;
 import ru.skillbox.hotelbooking.model.Hotel;
 import ru.skillbox.hotelbooking.repository.HotelRepository;
+import ru.skillbox.hotelbooking.service.DatabaseCheckService;
 import ru.skillbox.hotelbooking.service.HotelService;
 
 /**
@@ -27,6 +26,7 @@ import ru.skillbox.hotelbooking.service.HotelService;
 @RequiredArgsConstructor
 public class HotelServiceImpl implements HotelService {
 
+    private final DatabaseCheckService databaseCheckService;
     private final HotelRepository hotelRepository;
     private final HotelMapper hotelMapper;
 
@@ -58,9 +58,7 @@ public class HotelServiceImpl implements HotelService {
 
     @Override
     public boolean deleteById(Long id) {
-        if (!hotelRepository.existsById(id)) {
-            throw new HotelNotFoundException();
-        }
+        databaseCheckService.checkIfHotelExists(id);
         hotelRepository.deleteById(id);
         return true;
     }
