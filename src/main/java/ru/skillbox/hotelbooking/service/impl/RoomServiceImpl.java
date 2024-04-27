@@ -33,7 +33,7 @@ public class RoomServiceImpl implements RoomService {
     public RoomDto create(RoomCreateRequest request) {
         databaseCheckService.checkIfHotelExists(request.getHotelId());
         Room room = roomRepository.save(roomMapper.toEntity(request));
-        return roomMapper.toRoomDto(room);
+        return roomMapper.toDto(room);
     }
 
     @Override
@@ -48,7 +48,7 @@ public class RoomServiceImpl implements RoomService {
     @Override
     public RoomDto getById(Long id) {
         return roomRepository.findById(id)
-            .map(roomMapper::toRoomDto)
+            .map(roomMapper::toDto)
             .orElseThrow(RoomNotFoundException::new);
     }
 

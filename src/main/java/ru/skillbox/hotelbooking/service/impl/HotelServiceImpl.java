@@ -33,7 +33,7 @@ public class HotelServiceImpl implements HotelService {
     @Override
     public HotelDto create(HotelCreateRequest hotelCreateRequest) {
         Hotel hotel = hotelRepository.save(hotelMapper.toEntity(hotelCreateRequest));
-        return hotelMapper.toHotelDto(hotel);
+        return hotelMapper.toDto(hotel);
     }
 
     @Override
@@ -46,13 +46,13 @@ public class HotelServiceImpl implements HotelService {
 //            .orElseThrow(HotelNotFoundException::new);
 //        hotelMapper.updateHotelFromRequest(hotelUpdateRequest, hotel);
 //        Hotel updated = hotelRepository.save(hotel);
-//        return hotelMapper.toHotelDto(updated);
+//        return hotelMapper.toDto(updated);
     }
 
     @Override
     public HotelDto getById(Long id) {
         return hotelRepository.findById(id)
-            .map(hotelMapper::toHotelDto)
+            .map(hotelMapper::toDto)
             .orElseThrow(HotelNotFoundException::new);
     }
 
@@ -66,7 +66,7 @@ public class HotelServiceImpl implements HotelService {
     @Override
     public List<HotelDto> getAll() {
         return hotelRepository.findAll().stream()
-            .map(hotelMapper::toHotelDto)
+            .map(hotelMapper::toDto)
             .toList();
     }
 }

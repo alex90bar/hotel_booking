@@ -13,6 +13,8 @@ import ru.skillbox.hotelbooking.dto.error.ErrorResponse;
 import ru.skillbox.hotelbooking.dto.error.ErrorType;
 import ru.skillbox.hotelbooking.exception.HotelNotFoundException;
 import ru.skillbox.hotelbooking.exception.RoomNotFoundException;
+import ru.skillbox.hotelbooking.exception.UserAlreadyExistException;
+import ru.skillbox.hotelbooking.exception.UserNotFoundException;
 
 /**
  * MainControllerAdvice
@@ -37,8 +39,15 @@ public class MainControllerAdvice {
         return new ErrorResponse(ErrorType.VALIDATION_ERROR.getDescription(), errors);
     }
 
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(UserAlreadyExistException.class)
+    public ErrorResponse handleUserAlreadyExistExceptions(
+        UserAlreadyExistException ex) {
+        return new ErrorResponse(ErrorType.BAD_REQUEST.getDescription(), ex.getMessage());
+    }
+
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    @ExceptionHandler({HotelNotFoundException.class, RoomNotFoundException.class})
+    @ExceptionHandler({HotelNotFoundException.class, RoomNotFoundException.class, UserNotFoundException.class})
     public ErrorResponse handleNotFoundExceptions(
         Exception ex) {
         return new ErrorResponse(ErrorType.NOT_FOUND.getDescription(), ex.getMessage());

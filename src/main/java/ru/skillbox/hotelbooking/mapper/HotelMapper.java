@@ -18,7 +18,7 @@ public interface HotelMapper {
 
     Hotel toEntity(HotelCreateRequest request);
 
-    HotelDto toHotelDto(Hotel hotel);
+    HotelDto toDto(Hotel hotel);
 
     void updateHotelFromRequest(HotelUpdateRequest request, @MappingTarget Hotel hotel);
 }
