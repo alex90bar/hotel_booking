@@ -35,13 +35,13 @@ public class RoomController {
 
     @PostMapping("/create")
     @Operation(description = "Добавление новой комнаты")
-    public RoomDto createHotel(@Valid @RequestBody RoomCreateRequest roomCreateRequest) {
+    public RoomDto createRoom(@Valid @RequestBody RoomCreateRequest roomCreateRequest) {
         return roomService.create(roomCreateRequest);
     }
 
     @PutMapping("/update")
     @Operation(description = "Редактирование комнаты")
-    public RoomDto updateHotel(@Valid @RequestBody RoomUpdateRequest roomUpdateRequest) {
+    public RoomDto updateRoom(@Valid @RequestBody RoomUpdateRequest roomUpdateRequest) {
         return roomService.update(roomUpdateRequest);
     }
 

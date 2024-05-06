@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import ru.skillbox.hotelbooking.dto.error.ErrorResponse;
 import ru.skillbox.hotelbooking.dto.error.ErrorType;
+import ru.skillbox.hotelbooking.exception.BookingAlreadyExistException;
 import ru.skillbox.hotelbooking.exception.HotelNotFoundException;
+import ru.skillbox.hotelbooking.exception.IncorrectBookingDateException;
 import ru.skillbox.hotelbooking.exception.RoomNotFoundException;
 import ru.skillbox.hotelbooking.exception.UserAlreadyExistException;
 import ru.skillbox.hotelbooking.exception.UserNotFoundException;
@@ -40,10 +42,17 @@ public class MainControllerAdvice {
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(UserAlreadyExistException.class)
+    @ExceptionHandler({UserAlreadyExistException.class, BookingAlreadyExistException.class})
     public ErrorResponse handleUserAlreadyExistExceptions(
-        UserAlreadyExistException ex) {
+        Exception ex) {
         return new ErrorResponse(ErrorType.BAD_REQUEST.getDescription(), ex.getMessage());
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler({IncorrectBookingDateException.class})
+    public ErrorResponse handleIncorrectDateExceptions(
+        Exception ex) {
+        return new ErrorResponse(ErrorType.INCORRECT_DATES.getDescription(), ex.getMessage());
     }
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
