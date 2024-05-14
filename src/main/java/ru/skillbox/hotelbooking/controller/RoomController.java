@@ -1,10 +1,12 @@
 package ru.skillbox.hotelbooking.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,18 +30,21 @@ import ru.skillbox.hotelbooking.service.RoomService;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/room")
+@SecurityRequirement(name = "basicAuth")
 @Tag(name = "RoomController", description = "Работа с комнатами")
 public class RoomController {
 
     private final RoomService roomService;
 
     @PostMapping("/create")
+    @PreAuthorize("hasRole('ADMIN')")
     @Operation(description = "Добавление новой комнаты")
     public RoomDto createRoom(@Valid @RequestBody RoomCreateRequest roomCreateRequest) {
         return roomService.create(roomCreateRequest);
     }
 
     @PutMapping("/update")
+    @PreAuthorize("hasRole('ADMIN')")
     @Operation(description = "Редактирование комнаты")
     public RoomDto updateRoom(@Valid @RequestBody RoomUpdateRequest roomUpdateRequest) {
         return roomService.update(roomUpdateRequest);
@@ -52,6 +57,7 @@ public class RoomController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     @Operation(description = "Удаление комнаты по ИД")
     public boolean deleteById(@PathVariable("id") Long id) {
         return roomService.deleteById(id);

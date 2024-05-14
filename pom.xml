@@ -42,14 +42,14 @@
       <scope>test</scope>
     </dependency>
 
-<!--   MapStruct для маппинга сущностей -->
+    <!--   MapStruct для маппинга сущностей -->
     <dependency>
       <groupId>org.mapstruct</groupId>
       <artifactId>mapstruct</artifactId>
       <version>1.6.0.Beta1</version>
     </dependency>
 
-<!--    Для генерации сваггера OpenAPI -->
+    <!--    Для генерации сваггера OpenAPI -->
     <dependency>
       <groupId>org.springdoc</groupId>
       <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
@@ -60,6 +60,12 @@
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-validation</artifactId>
+    </dependency>
+
+    <!--    Spring Security -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-security</artifactId>
     </dependency>
   </dependencies>
 

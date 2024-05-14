@@ -1,3 +1,10 @@
+# уровень логирования для запуска в режиме отладки
+#logging:
+#  level:
+#    org:
+#      springframework:
+#        security: DEBUG
+
 spring:
   application:
     name: hotel-booking

@@ -2,6 +2,7 @@ package ru.skillbox.hotelbooking.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.skillbox.hotelbooking.dto.user.UserCreateRequest;
@@ -27,12 +28,14 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final UserMapper userMapper;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public UserDto create(UserCreateRequest request) {
         if (existsByEmailOrLogin(request.getEmail(), request.getLogin())) {
             throw new UserAlreadyExistException();
         }
+        request.setPassword(passwordEncoder.encode(request.getPassword()));
         User user = userRepository.save(userMapper.toEntity(request));
         return userMapper.toDto(user);
     }

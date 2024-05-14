@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -53,6 +54,13 @@ public class MainControllerAdvice {
     public ErrorResponse handleIncorrectDateExceptions(
         Exception ex) {
         return new ErrorResponse(ErrorType.INCORRECT_DATES.getDescription(), ex.getMessage());
+    }
+
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    @ExceptionHandler({AccessDeniedException.class})
+    public ErrorResponse handleAccessDeniedExceptions(
+        Exception ex) {
+        return new ErrorResponse(ErrorType.ACCESS_DENIED.getDescription(), ex.getMessage());
     }
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
