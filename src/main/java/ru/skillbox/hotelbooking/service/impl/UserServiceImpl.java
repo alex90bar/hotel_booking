@@ -29,6 +29,7 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
+    private final DatabaseServiceImpl databaseCheckService;
 
     @Override
     public UserDto create(UserCreateRequest request) {
@@ -77,6 +78,7 @@ public class UserServiceImpl implements UserService {
         if (!userRepository.existsById(id)) {
             throw new UserNotFoundException();
         }
+        databaseCheckService.deleteBookingsByUser(User.builder().id(id).build());
         userRepository.deleteById(id);
         return true;
     }

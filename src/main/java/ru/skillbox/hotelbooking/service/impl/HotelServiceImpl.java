@@ -11,8 +11,9 @@ import ru.skillbox.hotelbooking.dto.hotel.HotelUpdateRequest;
 import ru.skillbox.hotelbooking.exception.HotelNotFoundException;
 import ru.skillbox.hotelbooking.mapper.HotelMapper;
 import ru.skillbox.hotelbooking.model.Hotel;
+import ru.skillbox.hotelbooking.model.Room;
 import ru.skillbox.hotelbooking.repository.HotelRepository;
-import ru.skillbox.hotelbooking.service.DatabaseCheckService;
+import ru.skillbox.hotelbooking.service.DatabaseService;
 import ru.skillbox.hotelbooking.service.HotelService;
 
 /**
@@ -26,7 +27,7 @@ import ru.skillbox.hotelbooking.service.HotelService;
 @RequiredArgsConstructor
 public class HotelServiceImpl implements HotelService {
 
-    private final DatabaseCheckService databaseCheckService;
+    private final DatabaseService databaseService;
     private final HotelRepository hotelRepository;
     private final HotelMapper hotelMapper;
 
@@ -58,7 +59,10 @@ public class HotelServiceImpl implements HotelService {
 
     @Override
     public boolean deleteById(Long id) {
-        databaseCheckService.checkIfHotelExists(id);
+        databaseService.checkIfHotelExists(id);
+        List<Room> roomsByHotel = databaseService.findRoomsByHotel(Hotel.builder().id(id).build());
+        roomsByHotel.forEach(databaseService::deleteBookingsByRoom);
+        databaseService.deleteRooms(roomsByHotel);
         hotelRepository.deleteById(id);
         return true;
     }

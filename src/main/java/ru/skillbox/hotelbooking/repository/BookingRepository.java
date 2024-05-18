@@ -6,6 +6,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import ru.skillbox.hotelbooking.model.Booking;
+import ru.skillbox.hotelbooking.model.Room;
+import ru.skillbox.hotelbooking.model.User;
 
 /**
  * BookingRepository
@@ -23,4 +25,8 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
     List<Booking> findBookingsByDates(@Param("dtStart") LocalDate dtStart,
                                       @Param("dtEnd") LocalDate dtEnd,
                                       @Param("roomId") Long roomId);
+
+    void deleteByUser(User user);
+
+    void deleteByRoom(Room room);
 }

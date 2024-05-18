@@ -11,7 +11,7 @@ import ru.skillbox.hotelbooking.mapper.BookingMapper;
 import ru.skillbox.hotelbooking.model.Booking;
 import ru.skillbox.hotelbooking.repository.BookingRepository;
 import ru.skillbox.hotelbooking.service.BookingService;
-import ru.skillbox.hotelbooking.service.DatabaseCheckService;
+import ru.skillbox.hotelbooking.service.DatabaseService;
 
 /**
  * BookingServiceImpl
@@ -25,16 +25,16 @@ import ru.skillbox.hotelbooking.service.DatabaseCheckService;
 public class BookingServiceImpl implements BookingService {
 
     private final BookingRepository bookingRepository;
-    private final DatabaseCheckService databaseCheckService;
+    private final DatabaseService databaseService;
     private final BookingMapper bookingMapper;
 
     @Override
     public BookingDto create(BookingCreateRequest request) {
-        databaseCheckService.checkIfRoomExists(request.getRoomId());
-        databaseCheckService.checkIfUserExists(request.getUserId());
+        databaseService.checkIfRoomExists(request.getRoomId());
+        databaseService.checkIfUserExists(request.getUserId());
         Booking booking = bookingMapper.toEntity(request);
         checkIfDatesCorrect(booking);
-        databaseCheckService.checkIfRoomDatesFree(booking);
+        databaseService.checkIfRoomDatesFree(booking);
         Booking saved = bookingRepository.save(booking);
         return bookingMapper.toDto(saved);
     }

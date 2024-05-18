@@ -13,7 +13,7 @@ import ru.skillbox.hotelbooking.model.User;
  * @author alex90bar
  */
 
-@Mapper(componentModel = "spring")
+@Mapper
 public interface UserMapper {
 
     User toEntity(UserCreateRequest request);

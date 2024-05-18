@@ -14,7 +14,7 @@ import ru.skillbox.hotelbooking.model.Room;
  * @author alex90bar
  */
 
-@Mapper(componentModel = "spring")
+@Mapper
 public interface RoomMapper {
 
     @Mapping(target = "hotel", expression = "java(Hotel.builder().id(request.getHotelId()).build())")

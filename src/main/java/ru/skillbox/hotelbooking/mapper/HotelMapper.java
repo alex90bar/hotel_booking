@@ -13,7 +13,7 @@ import ru.skillbox.hotelbooking.model.Hotel;
  * @author alex90bar
  */
 
-@Mapper(componentModel = "spring")
+@Mapper
 public interface HotelMapper {
 
     Hotel toEntity(HotelCreateRequest request);

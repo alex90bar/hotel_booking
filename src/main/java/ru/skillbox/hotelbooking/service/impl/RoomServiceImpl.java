@@ -11,7 +11,7 @@ import ru.skillbox.hotelbooking.exception.RoomNotFoundException;
 import ru.skillbox.hotelbooking.mapper.RoomMapper;
 import ru.skillbox.hotelbooking.model.Room;
 import ru.skillbox.hotelbooking.repository.RoomRepository;
-import ru.skillbox.hotelbooking.service.DatabaseCheckService;
+import ru.skillbox.hotelbooking.service.DatabaseService;
 import ru.skillbox.hotelbooking.service.RoomService;
 
 /**
@@ -25,13 +25,13 @@ import ru.skillbox.hotelbooking.service.RoomService;
 @RequiredArgsConstructor
 public class RoomServiceImpl implements RoomService {
 
-    private final DatabaseCheckService databaseCheckService;
+    private final DatabaseService databaseService;
     private final RoomRepository roomRepository;
     private final RoomMapper roomMapper;
 
     @Override
     public RoomDto create(RoomCreateRequest request) {
-        databaseCheckService.checkIfHotelExists(request.getHotelId());
+        databaseService.checkIfHotelExists(request.getHotelId());
         Room room = roomRepository.save(roomMapper.toEntity(request));
         return roomMapper.toDto(room);
     }
@@ -39,7 +39,7 @@ public class RoomServiceImpl implements RoomService {
     @Override
     @Transactional
     public RoomDto update(RoomUpdateRequest request) {
-        databaseCheckService.checkIfHotelExists(request.getHotelId());
+        databaseService.checkIfHotelExists(request.getHotelId());
         roomRepository.findById(request.getId())
             .ifPresent(room -> roomMapper.updateRoomFromRequest(request, room));
         return getById(request.getId());
@@ -57,6 +57,7 @@ public class RoomServiceImpl implements RoomService {
         if (!roomRepository.existsById(id)) {
             throw new RoomNotFoundException();
         }
+        databaseService.deleteBookingsByRoom(Room.builder().id(id).build());
         roomRepository.deleteById(id);
         return true;
     }
