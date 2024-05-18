@@ -1,12 +1,15 @@
 package ru.skillbox.hotelbooking.service.impl;
 
 import java.util.List;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.skillbox.hotelbooking.dto.hotel.HotelCreateRequest;
 import ru.skillbox.hotelbooking.dto.hotel.HotelDto;
+import ru.skillbox.hotelbooking.dto.hotel.HotelRateRequest;
 import ru.skillbox.hotelbooking.dto.hotel.HotelUpdateRequest;
 import ru.skillbox.hotelbooking.exception.HotelNotFoundException;
 import ru.skillbox.hotelbooking.mapper.HotelMapper;
@@ -73,4 +76,35 @@ public class HotelServiceImpl implements HotelService {
             .map(hotelMapper::toDto)
             .toList();
     }
+
+    @Override
+    public HotelDto rate(HotelRateRequest request) {
+        Hotel hotel = hotelRepository.findById(request.getId()).orElseThrow(HotelNotFoundException::new);
+        calculateRating(request, hotel);
+        return hotelMapper.toDto(hotelRepository.save(hotel));
+    }
+
+    private void calculateRating(HotelRateRequest request, Hotel hotel) {
+        Double rating = hotel.getRating();
+        Integer newMark = request.getRating();
+        Integer numberOfRating = hotel.getMarksCount();
+
+        if (rating == null || numberOfRating == null) {
+            hotel.setRating(newMark.doubleValue());
+            hotel.setMarksCount(1);
+        } else {
+            double totalRating = rating * numberOfRating;
+            totalRating = totalRating - rating + newMark;
+            rating = totalRating / numberOfRating;
+
+            double count = 10;
+            rating = Math.round(rating * count) / count;
+
+            numberOfRating++;
+
+            hotel.setRating(rating);
+            hotel.setMarksCount(numberOfRating);
+        }
+    }
+
 }

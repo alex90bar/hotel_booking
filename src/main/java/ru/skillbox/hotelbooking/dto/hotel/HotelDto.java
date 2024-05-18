@@ -31,7 +31,7 @@ public class HotelDto {
     private Integer distanceToCityCenter;
 
     @Schema(description = "Рейтинг (от 1 до 5)", example = "5")
-    private Short rating;
+    private Double rating;
 
     @Schema(description = "Количество оценок, на основе которых был рассчитан рейтинг", example = "330")
     private Integer marksCount;

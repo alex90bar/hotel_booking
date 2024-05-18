@@ -51,7 +51,7 @@ public class Hotel {
     private Integer distanceToCityCenter;
 
     @Column(name = "rating")
-    private Short rating;
+    private Double rating;
 
     @Column(name = "marks_count")
     private Integer marksCount;

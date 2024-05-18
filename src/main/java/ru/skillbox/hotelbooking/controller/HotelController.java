@@ -15,9 +15,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import ru.skillbox.hotelbooking.dto.hotel.HotelCreateRequest;
 import ru.skillbox.hotelbooking.dto.hotel.HotelDto;
+import ru.skillbox.hotelbooking.dto.hotel.HotelRateRequest;
 import ru.skillbox.hotelbooking.dto.hotel.HotelUpdateRequest;
 import ru.skillbox.hotelbooking.service.HotelService;
 
@@ -70,4 +72,9 @@ public class HotelController {
         return hotelService.getAll();
     }
 
+    @PostMapping("/rate")
+    @Operation(description = "Изменение рейтинга отеля")
+    public HotelDto rateHotel(@Valid @RequestBody HotelRateRequest request) {
+        return hotelService.rate(request);
+    }
 }
