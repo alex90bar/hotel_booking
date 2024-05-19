@@ -24,7 +24,7 @@ public class HotelDto {
     @Schema(description = "Город", example = "Кардифф")
     private String city;
 
-    @Schema(description = "Город", example = "Mill Lane, Кардифф CF10 1EZ Уэльс")
+    @Schema(description = "Адрес", example = "Mill Lane, Кардифф CF10 1EZ Уэльс")
     private String address;
 
     @Schema(description = "Расстояние от центра города, метры", example = "330")

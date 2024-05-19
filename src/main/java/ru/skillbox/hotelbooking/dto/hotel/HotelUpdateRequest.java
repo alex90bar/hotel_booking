@@ -33,7 +33,7 @@ public class HotelUpdateRequest {
     private String city;
 
     @NotBlank
-    @Schema(description = "Город", example = "Mill Lane, Кардифф CF10 1EZ Уэльс")
+    @Schema(description = "Адрес", example = "Mill Lane, Кардифф CF10 1EZ Уэльс")
     private String address;
 
     @NotNull

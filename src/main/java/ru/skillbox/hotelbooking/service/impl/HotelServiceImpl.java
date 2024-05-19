@@ -1,15 +1,17 @@
 package ru.skillbox.hotelbooking.service.impl;
 
 import java.util.List;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.ObjectUtils;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.skillbox.hotelbooking.dto.hotel.HotelCreateRequest;
 import ru.skillbox.hotelbooking.dto.hotel.HotelDto;
 import ru.skillbox.hotelbooking.dto.hotel.HotelRateRequest;
+import ru.skillbox.hotelbooking.dto.hotel.HotelSearchRequest;
 import ru.skillbox.hotelbooking.dto.hotel.HotelUpdateRequest;
 import ru.skillbox.hotelbooking.exception.HotelNotFoundException;
 import ru.skillbox.hotelbooking.mapper.HotelMapper;
@@ -18,6 +20,7 @@ import ru.skillbox.hotelbooking.model.Room;
 import ru.skillbox.hotelbooking.repository.HotelRepository;
 import ru.skillbox.hotelbooking.service.DatabaseService;
 import ru.skillbox.hotelbooking.service.HotelService;
+import ru.skillbox.hotelbooking.util.SpecificationUtil;
 
 /**
  * HotelServiceImpl
@@ -107,4 +110,17 @@ public class HotelServiceImpl implements HotelService {
         }
     }
 
+    @Override
+    public Page<HotelDto> find(Pageable pageable, HotelSearchRequest request) {
+        return hotelRepository.findAll(
+            Specification.where(SpecificationUtil.fieldIsEqual("id", request.getId()))
+            .and(SpecificationUtil.stringFieldLike("hotelName", request.getHotelName()))
+            .and(SpecificationUtil.stringFieldLike("advertisementTitle", request.getAdvertisementTitle()))
+            .and(SpecificationUtil.stringFieldLike("city", request.getCity()))
+            .and(SpecificationUtil.stringFieldLike("address", request.getAddress()))
+            .and(SpecificationUtil.fieldIsEqual("distanceToCityCenter", request.getDistanceToCityCenter()))
+            .and(SpecificationUtil.fieldIsEqual("rating", request.getRating()))
+            .and(SpecificationUtil.fieldIsEqual("marksCount", request.getMarksCount())), pageable)
+            .map(hotelMapper::toDto);
+    }
 }
