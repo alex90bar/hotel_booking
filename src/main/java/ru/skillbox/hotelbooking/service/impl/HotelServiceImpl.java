@@ -113,7 +113,7 @@ public class HotelServiceImpl implements HotelService {
     @Override
     public Page<HotelDto> find(Pageable pageable, HotelSearchRequest request) {
         return hotelRepository.findAll(
-            Specification.where(SpecificationUtil.fieldIsEqual("id", request.getId()))
+            Specification.where(SpecificationUtil.<Hotel, Long>fieldIsEqual("id", request.getId()))
             .and(SpecificationUtil.stringFieldLike("hotelName", request.getHotelName()))
             .and(SpecificationUtil.stringFieldLike("advertisementTitle", request.getAdvertisementTitle()))
             .and(SpecificationUtil.stringFieldLike("city", request.getCity()))

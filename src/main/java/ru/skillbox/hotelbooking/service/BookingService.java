@@ -1,6 +1,7 @@
 package ru.skillbox.hotelbooking.service;
 
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import ru.skillbox.hotelbooking.dto.booking.BookingCreateRequest;
 import ru.skillbox.hotelbooking.dto.booking.BookingDto;
 
@@ -14,5 +15,5 @@ public interface BookingService {
 
     BookingDto create(BookingCreateRequest request);
 
-    List<BookingDto> getAll();
+    Page<BookingDto> getAll(Pageable pageable);
 }

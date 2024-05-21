@@ -1,8 +1,9 @@
 package ru.skillbox.hotelbooking.service.impl;
 
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import ru.skillbox.hotelbooking.dto.booking.BookingCreateRequest;
 import ru.skillbox.hotelbooking.dto.booking.BookingDto;
@@ -46,7 +47,7 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public List<BookingDto> getAll() {
-        return bookingRepository.findAll().stream().map(bookingMapper::toDto).toList();
+    public Page<BookingDto> getAll(Pageable pageable) {
+        return bookingRepository.findAll(pageable).map(bookingMapper::toDto);
     }
 }

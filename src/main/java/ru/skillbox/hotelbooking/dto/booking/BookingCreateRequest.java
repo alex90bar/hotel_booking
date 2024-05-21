@@ -22,7 +22,7 @@ public class BookingCreateRequest {
 
     @NotNull
     @ValidLocalDate
-    @Schema(description = "Дата окончания бронирования", example = "2024-05-31")
+    @Schema(description = "Дата окончания бронирования", example = "2024-06-05")
     private String dtEnd;
 
     @NotNull

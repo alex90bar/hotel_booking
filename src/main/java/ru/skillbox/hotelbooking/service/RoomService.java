@@ -1,7 +1,10 @@
 package ru.skillbox.hotelbooking.service;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import ru.skillbox.hotelbooking.dto.room.RoomCreateRequest;
 import ru.skillbox.hotelbooking.dto.room.RoomDto;
+import ru.skillbox.hotelbooking.dto.room.RoomSearchRequest;
 import ru.skillbox.hotelbooking.dto.room.RoomUpdateRequest;
 
 /**
@@ -19,4 +22,6 @@ public interface RoomService {
     RoomDto getById(Long id);
 
     boolean deleteById(Long id);
+
+    Page<RoomDto> find(Pageable pageable, RoomSearchRequest request);
 }
