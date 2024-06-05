@@ -9,6 +9,19 @@ spring:
   application:
     name: booking
 
+  cloud:
+    stream:
+      bindings:
+        output-user-stats:
+          destination: user-statistics
+          content-type: application/json
+        output-booking-stats:
+          destination: booking-statistics
+          content-type: application/json
+      kafka:
+        binder:
+          brokers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9094}
+
   datasource:
     url: jdbc:${DATABASE_URL:postgresql://localhost:5439/hotel_booking}
     username: ${USER_DB:postgres}

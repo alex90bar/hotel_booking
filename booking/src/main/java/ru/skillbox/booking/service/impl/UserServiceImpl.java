@@ -11,6 +11,7 @@ import ru.skillbox.booking.dto.user.UserUpdateRequest;
 import ru.skillbox.booking.exception.UserAlreadyExistException;
 import ru.skillbox.booking.exception.UserNotFoundException;
 import ru.skillbox.booking.mapper.UserMapper;
+import ru.skillbox.booking.messaging.KafkaSender;
 import ru.skillbox.booking.model.User;
 import ru.skillbox.booking.repository.UserRepository;
 import ru.skillbox.booking.service.UserService;
@@ -30,6 +31,7 @@ public class UserServiceImpl implements UserService {
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
     private final DatabaseServiceImpl databaseCheckService;
+    private final KafkaSender kafkaSender;
 
     @Override
     public UserDto create(UserCreateRequest request) {
@@ -38,6 +40,7 @@ public class UserServiceImpl implements UserService {
         }
         request.setPassword(passwordEncoder.encode(request.getPassword()));
         User user = userRepository.save(userMapper.toEntity(request));
+        kafkaSender.sendUserCreatedEvent(user);
         return userMapper.toDto(user);
     }
 

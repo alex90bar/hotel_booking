@@ -37,6 +37,13 @@
       <scope>test</scope>
     </dependency>
 
+    <!--    Модуль для общих классов и зависимостей -->
+    <dependency>
+      <groupId>ru.skillbox</groupId>
+      <artifactId>common-resources</artifactId>
+      <version>0.0.1-SNAPSHOT</version>
+    </dependency>
+
     <!--   MapStruct для маппинга сущностей -->
     <dependency>
       <groupId>org.mapstruct</groupId>
@@ -62,6 +69,7 @@
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-security</artifactId>
     </dependency>
+
   </dependencies>
 
   <build>

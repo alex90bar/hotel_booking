@@ -9,6 +9,7 @@ import ru.skillbox.booking.dto.booking.BookingCreateRequest;
 import ru.skillbox.booking.dto.booking.BookingDto;
 import ru.skillbox.booking.exception.IncorrectBookingDateException;
 import ru.skillbox.booking.mapper.BookingMapper;
+import ru.skillbox.booking.messaging.KafkaSender;
 import ru.skillbox.booking.model.Booking;
 import ru.skillbox.booking.repository.BookingRepository;
 import ru.skillbox.booking.service.BookingService;
@@ -28,6 +29,7 @@ public class BookingServiceImpl implements BookingService {
     private final BookingRepository bookingRepository;
     private final DatabaseService databaseService;
     private final BookingMapper bookingMapper;
+    private final KafkaSender kafkaSender;
 
     @Override
     public BookingDto create(BookingCreateRequest request) {
@@ -37,6 +39,7 @@ public class BookingServiceImpl implements BookingService {
         checkIfDatesCorrect(booking);
         databaseService.checkIfRoomDatesFree(booking);
         Booking saved = bookingRepository.save(booking);
+        kafkaSender.sendBookingCreatedEvent(saved);
         return bookingMapper.toDto(saved);
     }
 
