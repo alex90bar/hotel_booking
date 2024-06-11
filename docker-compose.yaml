@@ -12,6 +12,18 @@ services:
     ports:
       - 5439:5432
 
+  mongo-db:
+    image: mongo:latest
+    container_name: mongo-db
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=example
+      - MONGO_INITDB_DATABASE=mydb
+    ports:
+      - 27017:27017
+    volumes:
+      - mongo-data:/data/db
+
   zookeeper:
     image: confluentinc/cp-zookeeper:latest
     ports:
@@ -52,3 +64,4 @@ services:
 
 volumes:
   kafka:
+  mongo-data:

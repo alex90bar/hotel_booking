@@ -21,6 +21,13 @@
       <artifactId>spring-boot-starter-web</artifactId>
     </dependency>
 
+    <!--    Модуль для общих классов и зависимостей -->
+    <dependency>
+      <groupId>ru.skillbox</groupId>
+      <artifactId>common-resources</artifactId>
+      <version>0.0.1-SNAPSHOT</version>
+    </dependency>
+
     <dependency>
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
