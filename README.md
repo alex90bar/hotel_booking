@@ -26,7 +26,7 @@ CSV-файла.
 Проект состоит из 3 модулей.
 
 1. Основной модуль - booking. Он содержит в себе контроллеры для работы со всеми эндпоинтами, авторизацию через Spring Security, работу с БД, обработку исключений.
-2. Вспомогательный модуль - statistics. Он получает из модуля booking данные через Apache Kafka по событиям регистрации пользователей и по оформленным бронированиям. И также имеет функцию выгрузки всех статистических данных в CSV-файл.
+2. Вспомогательный модуль - statistics. Он получает из модуля booking данные через Apache Kafka с помошью Spring Cloud Stream Kafka по событиям регистрации пользователей и по оформленным бронированиям, сохраняет их в БД MongoDB. И также имеет функцию выгрузки всех статистических данных в CSV-файл.
 3. Модуль common-resources - для общих классов и зависимостей.
 
 
@@ -36,7 +36,7 @@ CSV-файла.
 http://localhost:8080/swagger-ui/index.html#/
 
 Swagger позволяет ознакомиться со всеми эндпоинтами сервиса и также отправлять запросы по ним:
-<p align="center"><img  src="/readme_assets/swagger_1.png" width="80%"></p>
+<p align="center"><img  src="/readme_assets/swagger_1.png" width="100%"></p>
 
 Подробнее об этом в разделе [Запуск проекта](#4.1)
 
@@ -70,10 +70,10 @@ java -jar statistics/target/statistics-0.0.1-SNAPSHOT.jar
 http://localhost:8080/swagger-ui/index.html#/
 
 Прежде всего нужно создать пользователя, так как все другие методы требуют авторизации. Доступны 2 роли - USER и ADMIN:
-<p align="center"><img  src="/readme_assets/swagger_2.png" width="80%"></p>
+<p align="center"><img  src="/readme_assets/swagger_2.png" width="100%"></p>
 
 Далее необходимо пройти авторизацию в Swagger, зелёная кнопка в правом верхнем углу интерфейса:
-<p align="center"><img  src="/readme_assets/swagger_3.png" width="80%"></p>
+<p align="center"><img  src="/readme_assets/swagger_3.png" width="100%"></p>
 
 После этого можно пробовать отправлять запросы.
 Ролевая политика следующая:
@@ -93,7 +93,7 @@ http://localhost:8080/swagger-ui/index.html#/
 ### Пагинация
 Для оптимизации запросов снижения нагрузки на БД, и в целом для удобства, в методах поиска реализована постраничная выдача информации. 
 Через сваггер так же можно задавать параметры постраничной выдачи и сортировки по полям:   
-<p align="center"><img  src="/readme_assets/swagger_4.png" width="80%"></p>
+<p align="center"><img  src="/readme_assets/swagger_4.png" width="100%"></p>
 
 А в RequestBody можно использовать поля для поиска по записям.
 
