@@ -1,5 +1,6 @@
 package ru.skillbox.statistics.service.impl;
 
+import java.util.Date;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -30,6 +31,7 @@ public class StatisticsServiceImpl implements StatisticsService {
         User user = User.builder()
         .userId(event.getId())
         .login(event.getLogin())
+        .dtCreated(new Date())
         .build();
         User saved = userRepository.save(user);
         log.info("User saved to mongo: {}", saved);

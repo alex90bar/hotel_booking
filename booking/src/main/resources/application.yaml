@@ -40,3 +40,6 @@ server:
   error:
     include-message: always
   port: 8080
+
+statistics:
+  url: http://localhost:8085

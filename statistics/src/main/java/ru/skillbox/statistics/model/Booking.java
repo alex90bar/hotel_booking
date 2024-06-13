@@ -32,16 +32,8 @@ public class Booking {
     private String dtStart;
     private String dtEnd;
 
-    public LocalDate getDtStartAsLocalDate() {
-        return LocalDate.parse(dtStart, DATE_FORMATTER);
-    }
-
     public void setDtStartFromLocalDate(LocalDate dtStart) {
         this.dtStart = dtStart.format(DATE_FORMATTER);
-    }
-
-    public LocalDate getDtEndAsLocalDate() {
-        return LocalDate.parse(dtEnd, DATE_FORMATTER);
     }
 
     public void setDtEndFromLocalDate(LocalDate dtEnd) {

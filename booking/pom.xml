@@ -70,6 +70,12 @@
       <artifactId>spring-boot-starter-security</artifactId>
     </dependency>
 
+    <!--    Feign -->
+    <dependency>
+      <groupId>org.springframework.cloud</groupId>
+      <artifactId>spring-cloud-starter-openfeign</artifactId>
+    </dependency>
+
   </dependencies>
 
   <build>

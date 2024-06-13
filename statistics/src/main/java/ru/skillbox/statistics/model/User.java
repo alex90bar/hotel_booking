@@ -1,5 +1,6 @@
 package ru.skillbox.statistics.model;
 
+import java.util.Date;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -28,5 +29,6 @@ public class User {
     private String id;
     private Long userId;
     private String login;
+    private Date dtCreated;
 
 }
