@@ -22,13 +22,13 @@ HotelBooking - это учебный проект на Java и SpringBoot.
 Сервис позволяет администраторам выгружать статистику по работе в формате
 CSV-файла.
 
-### Структура проекта.
-Проект состоит из 3 модулей.
+### Логика работы проекта.
 
-1. Основной модуль - booking. Он содержит в себе контроллеры для работы со всеми эндпоинтами, авторизацию через Spring Security, работу с БД, обработку исключений.
-2. Вспомогательный модуль - statistics. Он получает из модуля booking данные через Apache Kafka с помошью Spring Cloud Stream Kafka по событиям регистрации пользователей и по оформленным бронированиям, сохраняет их в БД MongoDB. И также имеет функцию выгрузки всех статистических данных в CSV-файл.
-3. Модуль common-resources - для общих классов и зависимостей.
-
+- Взаимодействие пользователя с сервисом происходит по REST API. 
+- Имеются контроллеры для работы со всеми основными эндпоинтами - работа с отелями, комнатами, пользователями и бронированиями. Контроллеры позволяют выполнять CRUD-операции.
+- Авторизация реализована через Spring Security.
+- Также имеется слой статистики, при создании нового пользователя и бронирования отправляется событие через Apache Kafka с помошью Spring Cloud Stream Kafka, которое обрабатывает сервис статистики и сохраняет данные в MongoDB. Далее есть возможность через контроллер статистики производить выгрузку всех статистических данных в CSV-файл.
+- При первом запуске проекта создаются необходимые таблицы в БД PostgreSQL через Liquibase.
 
 ## 2. Спецификация API.<a id='2.1'></a>
 
@@ -41,7 +41,7 @@ Swagger позволяет ознакомиться со всеми эндпои
 Подробнее об этом в разделе [Запуск проекта](#4.1)
 
 ## 3. Стек используемых технологий.<a id='3.1'></a>
-`Java 21` `Spring Boot` `REST API` `Feign Client` `Spring Cloud Stream` `Spring Data` `Spring Security` `Spring Boot Starter Validation` `JDBC-JPA-Hibernate` `MapStruct` `PostgreSQL` `MongoDB` `Apache Kafka` `Lombok` `Maven` 
+`Java 21` `Spring Boot` `REST API` `Spring Cloud Stream` `Spring Data` `Spring Security` `Spring Boot Starter Validation` `JDBC-JPA-Hibernate` `MapStruct` `PostgreSQL` `Liquibase` `MongoDB` `Apache Kafka` `Lombok` `Maven` 
 
 ## 4. Запуск проекта.<a id='4.1'></a>
 
@@ -62,8 +62,7 @@ docker-compose up -d
 
 ```
 mvn clean install
-java -jar booking/target/booking-0.0.1-SNAPSHOT.jar
-java -jar statistics/target/statistics-0.0.1-SNAPSHOT.jar
+java -jar target/booking-0.0.1-SNAPSHOT.jar
 ```
 
 Для тестирования эндпоинтов удобно использовать Swagger, по умолчанию он запускается по URL:
@@ -99,5 +98,5 @@ http://localhost:8080/swagger-ui/index.html#/
 
 ### Выгрузка статистики в CSV
 Выгрузка статистики происходит с помощью методов контроллера StatisticsController - Получение статистических данных.
-При этом происходит запрос через Feign Client в модуль statistics, в котором сервис получает данные из MongoDB и генерирует из них CSV файл:
+Сервис получает данные из MongoDB и генерирует из них CSV файл:
 <p align="center"><img  src="/readme_assets/statistics.png" width="80%"></p>
