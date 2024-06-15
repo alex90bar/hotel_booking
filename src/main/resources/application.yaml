@@ -41,12 +41,12 @@ spring:
     driverClassName: org.postgresql.Driver
 
   jpa:
-    hibernate:
-      ddl-auto: update
     properties:
       hibernate:
         format_sql: true
     open-in-view: false
+  liquibase:
+    change-log: classpath:db/liquibase-changelog.yaml
 
 server:
   error:

@@ -1,0 +1,49 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet id="0004_create_booking" author="Alexander Baranov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists schemaName="public" tableName="booking"/>
+            </not>
+        </preConditions>
+        <createTable schemaName="public" tableName="booking" remarks="Таблица хранения данных по бронированиям">
+            <column name="id"
+                    type="bigint"
+                    autoIncrement="true"
+                    remarks="Идентификатор">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="dt_start"
+                    type="date"
+                    remarks="Дата начала бронирования">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dt_end"
+                    type="date"
+                    remarks="Дата окончания бронирования">
+                <constraints nullable="false"/>
+            </column>
+            <column name="room"
+                    type="bigint"
+                    remarks="Идентификатор бронируемой комнаты">
+                <constraints foreignKeyName="fk_booking_to_room"
+                             references="room"
+                             nullable="false"/>
+            </column>
+            <column name="user"
+                    type="bigint"
+                    remarks="Идентификатор пользователя">
+                <constraints foreignKeyName="fk_booking_to_user"
+                             references="user"
+                             nullable="false"/>
+            </column>
+        </createTable>
+
+        <rollback>
+            <dropTable schemaName="public" tableName="booking"/>
+        </rollback>
+    </changeSet>
+</databaseChangeLog>

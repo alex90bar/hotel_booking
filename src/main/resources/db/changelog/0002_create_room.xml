@@ -1,0 +1,61 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet id="0002_create_room" author="Alexander Baranov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists schemaName="public" tableName="room"/>
+            </not>
+        </preConditions>
+        <createTable schemaName="public" tableName="room" remarks="Таблица хранения данных по комнатам">
+            <column name="id"
+                    type="bigint"
+                    autoIncrement="true"
+                    remarks="Идентификатор">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="room_name"
+                    type="varchar(255)"
+                    remarks="Название комнаты">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description"
+                    type="varchar(255)"
+                    remarks="Описание комнаты">
+                <constraints nullable="false"/>
+            </column>
+            <column name="room_number"
+                    type="integer"
+                    remarks="Номер комнаты">
+                <constraints nullable="false"/>
+            </column>
+            <column name="price"
+                    type="integer"
+                    remarks="Цена">
+                <constraints nullable="false"/>
+            </column>
+            <column name="people_capacity"
+                    type="integer"
+                    remarks="Максимальное количество людей, которое можно разместить">
+                <constraints nullable="false"/>
+            </column>
+            <column name="unavailable_dates"
+                    type="varchar(255)"
+                    remarks="Даты, когда комната недоступна">
+            </column>
+            <column name="hotel"
+                    type="bigint"
+                    remarks="ИД отеля, в котором находится комната">
+            <constraints foreignKeyName="fk_room_to_hotel"
+                         references="hotel"
+                         nullable="false"/>
+            </column>
+        </createTable>
+
+        <rollback>
+            <dropTable schemaName="public" tableName="room"/>
+        </rollback>
+    </changeSet>
+</databaseChangeLog>

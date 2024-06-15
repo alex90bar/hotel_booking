@@ -1,0 +1,13 @@
+databaseChangeLog:
+  - include:
+      file: changelog/0001_create_hotel.xml
+      relativeToChangelogFile: true
+  - include:
+      file: changelog/0002_create_room.xml
+      relativeToChangelogFile: true
+  - include:
+      file: changelog/0003_create_user.xml
+      relativeToChangelogFile: true
+  - include:
+      file: changelog/0004_create_booking.xml
+      relativeToChangelogFile: true

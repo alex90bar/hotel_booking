@@ -1,0 +1,45 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet id="0003_create_user" author="Alexander Baranov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists schemaName="public" tableName="user"/>
+            </not>
+        </preConditions>
+        <createTable schemaName="public" tableName="user" remarks="Таблица хранения данных по пользователям">
+            <column name="id"
+                    type="bigint"
+                    autoIncrement="true"
+                    remarks="Идентификатор">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="login"
+                    type="varchar(255)"
+                    remarks="Имя пользователя">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="password"
+                    type="varchar(255)"
+                    remarks="Пароль">
+                <constraints nullable="false"/>
+            </column>
+            <column name="email"
+                    type="varchar(255)"
+                    remarks="Электронная почта">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="user_role"
+                    type="varchar(255)"
+                    remarks="Роль">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <rollback>
+            <dropTable schemaName="public" tableName="user"/>
+        </rollback>
+    </changeSet>
+</databaseChangeLog>

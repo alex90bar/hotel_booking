@@ -41,6 +41,12 @@
       <artifactId>spring-boot-starter-web</artifactId>
     </dependency>
 
+    <!--   Миграции БД   -->
+    <dependency>
+      <groupId>org.liquibase</groupId>
+      <artifactId>liquibase-core</artifactId>
+    </dependency>
+
     <!--   Messaging   -->
     <dependency>
       <groupId>org.springframework.cloud</groupId>

@@ -1,0 +1,58 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet id="0001_create_hotel" author="Alexander Baranov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists schemaName="public" tableName="hotel"/>
+            </not>
+        </preConditions>
+        <createTable schemaName="public" tableName="hotel" remarks="Таблица хранения данных по отелям">
+            <column name="id"
+                    type="bigint"
+                    autoIncrement="true"
+                    remarks="Идентификатор">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="hotel_name"
+                    type="varchar(255)"
+                    remarks="Название отеля">
+                <constraints nullable="false"/>
+            </column>
+            <column name="advertisement_title"
+                    type="varchar(255)"
+                    remarks="Заголовок объявления">
+                <constraints nullable="false"/>
+            </column>
+            <column name="city"
+                    type="varchar(255)"
+                    remarks="Город">
+                <constraints nullable="false"/>
+            </column>
+            <column name="address"
+                    type="varchar(255)"
+                    remarks="Адрес">
+                <constraints nullable="false"/>
+            </column>
+            <column name="distance_to_city_center"
+                    type="integer"
+                    remarks="Расстояние от центра города, метры">
+                <constraints nullable="false"/>
+            </column>
+            <column name="rating"
+                    type="double"
+                    remarks="Рейтинг (от 1 до 5)">
+            </column>
+            <column name="marks_count"
+                    type="integer"
+                    remarks="Количество оценок, на основе которых был рассчитан рейтинг">
+            </column>
+        </createTable>
+
+        <rollback>
+            <dropTable schemaName="public" tableName="hotel"/>
+        </rollback>
+    </changeSet>
+</databaseChangeLog>
