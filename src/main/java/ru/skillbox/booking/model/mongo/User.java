@@ -1,4 +1,4 @@
-package ru.skillbox.statistics.model;
+package ru.skillbox.booking.model.mongo;
 
 import java.util.Date;
 import lombok.AllArgsConstructor;
